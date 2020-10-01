@@ -1,0 +1,36 @@
+.home {
+    margin-top: 100px;
+}
+
+.home .search-page {
+    text-align: center;
+}
+
+.home .search-user {
+    display: flex;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.home .search-user .input-text {
+    margin-right: 10px;
+}
+
+.home .search-user .input-button {
+    margin-left: 5px;
+}
+
+.home .infos-user {
+    display: flex;
+}
+
+.home .infos-user .img-user {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.home .infos-user .identity {
+    padding-top: 3%;
+    margin-left: 40px;
+}
