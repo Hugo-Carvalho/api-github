@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom';
 import Axios from 'axios';
 import './styles/Home.css';
 
+import ListRepositories from '../components/list-repositories/ListRepositories';
+
 function Home() {
 
     const [userSearched, setUserSearched] = useState("");
     const [infosUser, setInfosUser] = useState(null);
-    const [repositories, setRepositories] = useState([]);
-    const [mostVisitedRepositories, setMostVisitedRepositories] = useState([]);
+    const [repositories, setRepositories] = useState(null);
+    const [mostVisitedRepositories, setMostVisitedRepositories] = useState(null);
 
     const { userGithub } = useParams()
 
@@ -26,6 +28,10 @@ function Home() {
         window.location.href = window.location.href + userSearched;
     }
 
+    function handleBackSearch() {
+        window.location.href = window.location.href.replace(window.location.pathname, "");
+    }
+
     function handleRepositories() {
         Axios.get('/' + userGithub + '/repos').then(response => {
             setRepositories(response.data);
@@ -40,7 +46,7 @@ function Home() {
                 <div className="search-page">
                     <img alt="logo-github-api" src={require("../assets/github-api.png")} width="500"></img>
                     <div className="form-group search-user">
-                        <input className="form-control input-text" type="text" placeholder="Informe o usuario" onChange={(e) => {
+                        <input className="form-control input-text" type="text" placeholder="Informe o usuário" onChange={(e) => {
                             setUserSearched(e.target.value);
                         }}></input>
                         <button type="submit" className="btn btn-primary input-button" onClick={() => { handleSearchUser() }}>Pesquisar</button>
@@ -52,13 +58,27 @@ function Home() {
                     <div className="infos-user">
                         <img alt="photo-user-github" src={infosUser.avatar_url} className="img-user"></img>
                         <div className="identity">
-                            <label>{"Nome: " + infosUser.name}</label>
+                            <label className="identity-item">{"Nome: " + infosUser.name}</label>
+                            <label className="identity-item">{"Login: " + infosUser.login}</label>
                             <br />
-                            <label>{"Login: " + infosUser.login}</label>
+                            <label className="identity-item">{"Seguidores: " + infosUser.followers}</label>
+                            <label className="identity-item">{"Seguindo: " + infosUser.following}</label>
+                            <br />
+                            <label className="identity-item">{"Repositórios publicos: " + infosUser.public_repos}</label>
+                            <br />
+                            <label className="identity-item">{infosUser.bio}</label>
                         </div>
+                        <button type="submit" className="btn btn-primary button-back" onClick={() => { handleBackSearch() }}>Voltar</button>
                     </div>
-                    <button type="submit" className="btn btn-primary input-button" onClick={() => { handleRepositories() }}>Repos</button>
-                    <button type="submit" className="btn btn-primary input-button" onClick={() => { handleRepositories() }}>Starred</button>
+                    <div className="menu-options">
+                        <button type="submit" className="btn btn-primary input-button" onClick={() => { handleRepositories() }}>Repos</button>
+                        <button type="submit" className="btn btn-primary input-button" onClick={() => { handleRepositories() }}>Starred</button>
+                    </div>
+                    {repositories !== null ?
+                        <ListRepositories repositories={repositories} />
+                    :
+                        ""
+                    }
                 </div>
             }
         </div>

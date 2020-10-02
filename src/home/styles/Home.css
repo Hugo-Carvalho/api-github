@@ -1,8 +1,5 @@
-.home {
-    margin-top: 100px;
-}
-
 .home .search-page {
+    margin-top: 100px;
     text-align: center;
 }
 
@@ -21,6 +18,7 @@
 }
 
 .home .infos-user {
+    margin-top: 50px;
     display: flex;
 }
 
@@ -31,6 +29,24 @@
 }
 
 .home .infos-user .identity {
-    padding-top: 3%;
     margin-left: 40px;
+}
+
+.home .infos-user .identity-item {
+    padding: 5px 10px 0px 10px;
+}
+
+.home .infos-user .button-back {
+    margin-left: auto;
+    height: 50px;
+}
+
+.home .menu-options {
+    margin-top: 10px;
+    border-top: solid 1px #000;
+    text-align: center;
+}
+
+.home .menu-options .input-button {
+    margin: 20px 10px;
 }
