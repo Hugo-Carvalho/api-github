@@ -9,6 +9,7 @@ function Home() {
 
     const [userSearched, setUserSearched] = useState("");
     const [infosUser, setInfosUser] = useState(null);
+    const [userNotFound, setUserNotFound] = useState(false);
     const [repositories, setRepositories] = useState(null);
     const [mostVisitedRepositories, setMostVisitedRepositories] = useState(null);
 
@@ -19,13 +20,14 @@ function Home() {
             Axios.get('/' + userGithub).then(response => {
                 setInfosUser(response.data);
             }).catch(error => {
-                console.log(error)
+                setUserNotFound(true);
+                console.log(error);
             });
         }
     }, [userGithub])
 
     function handleSearchUser() {
-        window.location.href = window.location.href + userSearched;
+        window.location.href = window.location.href.replace(window.location.pathname, "") + userSearched;
     }
 
     function handleBackSearch() {
@@ -33,8 +35,18 @@ function Home() {
     }
 
     function handleRepositories() {
+        setMostVisitedRepositories(null);
         Axios.get('/' + userGithub + '/repos').then(response => {
             setRepositories(response.data);
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+
+    function handleMostVisitedRepositories() {
+        setRepositories(null);
+        Axios.get('/' + userGithub + '/starred').then(response => {
+            setMostVisitedRepositories(response.data);
         }).catch(error => {
             console.log(error)
         });
@@ -51,12 +63,19 @@ function Home() {
                         }}></input>
                         <button type="submit" className="btn btn-primary input-button" onClick={() => { handleSearchUser() }}>Pesquisar</button>
                     </div>
+                    {userNotFound ?
+                        <div className="error">
+                            <span>Usuário não encontrado!</span>
+                        </div>
+                        :
+                        ""
+                    }
                     <label>by: Hugo Carvalho</label>
                 </div>
                 :
                 <div>
                     <div className="infos-user">
-                        <img alt="photo-user-github" src={infosUser.avatar_url} className="img-user"></img>
+                        <img alt="user-github" src={infosUser.avatar_url} className="img-user"></img>
                         <div className="identity">
                             <label className="identity-item">{"Nome: " + infosUser.name}</label>
                             <label className="identity-item">{"Login: " + infosUser.login}</label>
@@ -72,11 +91,16 @@ function Home() {
                     </div>
                     <div className="menu-options">
                         <button type="submit" className="btn btn-primary input-button" onClick={() => { handleRepositories() }}>Repos</button>
-                        <button type="submit" className="btn btn-primary input-button" onClick={() => { handleRepositories() }}>Starred</button>
+                        <button type="submit" className="btn btn-primary input-button" onClick={() => { handleMostVisitedRepositories() }}>Starred</button>
                     </div>
                     {repositories !== null ?
                         <ListRepositories repositories={repositories} />
-                    :
+                        :
+                        ""
+                    }
+                    {mostVisitedRepositories !== null ?
+                        <ListRepositories repositories={mostVisitedRepositories} />
+                        :
                         ""
                     }
                 </div>

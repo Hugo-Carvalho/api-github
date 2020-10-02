@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import { API_BASE_URL } from '../constants';

@@ -3,6 +3,12 @@
     text-align: center;
 }
 
+.home .search-page .error {
+    margin: 10px 0;
+    text-align: center;
+    color: red;
+}
+
 .home .search-user {
     display: flex;
     margin-right: -15px;
