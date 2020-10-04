@@ -27,7 +27,7 @@ function Home() {
     }, [userGithub])
 
     function handleSearchUser() {
-        window.location.href = window.location.href.replace(window.location.pathname, "") + userSearched;
+        window.location.href = window.location.href.replace(window.location.pathname, "/") + userSearched;
     }
 
     function handleBackSearch() {

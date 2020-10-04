@@ -3,6 +3,11 @@ import './styles/ListRepositories.css';
 
 function ListRepositories({ repositories }) {
 
+    function formatDate(date) {
+        let dateTimeSplit = date.split("T");
+        return dateTimeSplit[0].split('-').reverse().join('/') + " " + dateTimeSplit[1].replace("Z", "")
+    }
+
     return (
         <>
             {repositories.length > 0 ?
@@ -26,8 +31,8 @@ function ListRepositories({ repositories }) {
                                         <td><a href={repository.html_url} target="blank">{repository.name}</a></td>
                                         <td>{repository.language}</td>
                                         <td>{repository.forks}</td>
-                                        <td>{repository.created_at}</td>
-                                        <td>{repository.updated_at}</td>
+                                        <td>{formatDate(repository.created_at)}</td>
+                                        <td>{formatDate(repository.updated_at)}</td>
                                     </tr>
                                 );
                             })
